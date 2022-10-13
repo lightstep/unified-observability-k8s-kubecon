@@ -1,0 +1,8 @@
+[plugins.otlp]
+    endpoint = "http://localhost:4318"
+    protocol = "http/protobuf"
+    insecure = true
+
+[plugins.tracing]
+    sampling_ratio = 1.0
+    service_name = "containerd"
