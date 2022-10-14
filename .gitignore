@@ -2,5 +2,5 @@
 */.terraform/*
 */.terraform*
 */terraform.tfstate*
-k8s-otel-demo-configs/terraform/main.tf
+
 
