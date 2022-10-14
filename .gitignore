@@ -1,4 +1,4 @@
 *.tfvars
 */.terraform/*
 */.terraform*
-*/terraform.tfstate*
+*/terraform.tfstate*k8s-otel-demo-configs/terraform/main.tf
