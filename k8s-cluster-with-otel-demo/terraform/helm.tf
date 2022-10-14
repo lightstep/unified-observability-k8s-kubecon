@@ -1,18 +1,31 @@
 provider "helm" {
 
   kubernetes {
-    host  = google_container_cluster.primary.endpoint
-    client_certificate  = google_container_cluster.primary.master_auth.0.client_certificate
-    token    = data.google_client_config.default.access_token
-    # client_key =  base64decode(google_container_cluster.primary.master_auth.0.client_key)
-    cluster_ca_certificate = base64decode(google_container_cluster.primary.master_auth.0.cluster_ca_certificate)
+    host  = "https://${data.google_container_cluster.my_cluster.endpoint}"
+    token = data.google_client_config.default.access_token
+    cluster_ca_certificate = base64decode(
+      data.google_container_cluster.my_cluster.master_auth[0].cluster_ca_certificate,
+    )
   }
+
+  # kubernetes {
+  #   host  = google_container_cluster.primary.endpoint
+  #   client_certificate  = google_container_cluster.primary.master_auth.0.client_certificate
+  #   token    = data.google_client_config.default.access_token
+  #   # client_key =  base64decode(google_container_cluster.primary.master_auth.0.client_key)
+  #   cluster_ca_certificate = base64decode(google_container_cluster.primary.master_auth.0.cluster_ca_certificate)
+  # }
 }
+
+
 
 resource "helm_release" "otel_demo_app" {
   name       = "otel-demo-app"
   repository = "https://open-telemetry.github.io/opentelemetry-helm-charts"
   chart      = "opentelemetry-demo"
+  timeout    = 90
+  namespace           = "otel-demo"
+  # create_namespace = true
 
   values = [
      "${file("values-ls.yaml")}"
