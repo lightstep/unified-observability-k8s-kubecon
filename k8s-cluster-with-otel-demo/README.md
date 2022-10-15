@@ -20,6 +20,8 @@ Steps:
 
 2. Populate `terraform.tfvars`
 
+    Don't worry - this file is `.gitignored` and won't be put into version control.
+
     ```t
     cluster_name = "<YOUR_CLUSTER_NAME>"
     demo_namespace = "otel-demo"
