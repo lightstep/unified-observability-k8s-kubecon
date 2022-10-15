@@ -19,14 +19,6 @@ variable "region" {
   description = "region"
 }
 
-variable "network" {
-  description = "network name"
-}
-
-variable "subnet" {
-  description = "subnet name"
-}
-
 
 variable "gke_username" {
   default     = ""

@@ -9,6 +9,10 @@ terraform {
       source  = "hashicorp/helm"
       version = "~> 2.7.1"
     }
+
+    kubectl = {
+      source = "gavinbunney/kubectl"
+    }
   }
 
   required_version = ">= 0.14"
@@ -26,11 +30,8 @@ resource "google_container_cluster" "primary" {
   remove_default_node_pool = true
   initial_node_count       = 1
 
-  network = "projects/${var.project_id}/global/networks/${var.network}"
-  subnetwork = "projects/${var.project_id}/regions/${var.region}/subnetworks/${var.subnet}"
-
-  # network    = google_compute_network.vpc.name
-  # subnetwork = google_compute_subnetwork.subnet.name
+  network    = google_compute_network.vpc.name
+  subnetwork = google_compute_subnetwork.subnet.name
 }
 
 # Separately Managed Node Pool
@@ -82,16 +83,44 @@ provider "google" {
 }
 
 # VPC
-# resource "google_compute_network" "vpc" {
-#   name                    = "${var.project_id}--vpc"
-#   auto_create_subnetworks = "false"
+resource "google_compute_network" "vpc" {
+  name                    = "${var.cluster_name}-vpc"
+  auto_create_subnetworks = "false"
+}
+
+# Subnet
+resource "google_compute_subnetwork" "subnet" {
+  name          = "${var.cluster_name}-subnet"
+  region        = var.region
+  network       = google_compute_network.vpc.name
+  ip_cidr_range = "10.10.0.0/24"
+}
+
+# resource "kubernetes_namespace_v1" "otel-demo-ns" {
+#   metadata {
+#     name = var.otel_demo_namespace
+#   }
+
+#   depends_on = [
+#     google_container_node_pool.primary_nodes
+#   ]
 # }
 
-# # Subnet
-# resource "google_compute_subnetwork" "subnet" {
-#   name          = "${var.project_id}-subnet"
-#   region        = var.region
-#   network       = google_compute_network.vpc.name
-#   ip_cidr_range = "10.10.0.0/24"
-# }
+# resource "kubernetes_secret_v1" "example" {
+#   metadata {
+#     name = "otel-collector-secret"
+#     namespace = var.otel_demo_namespace
+#   }
 
+#   data = {
+#     LS_TOKEN = var.ls_access_token
+#   }
+
+#   type = "Opaque"
+
+#     depends_on = [
+#     google_container_node_pool.primary_nodes,
+#     kubernetes_secret_v1.example
+#   ]
+
+# }

@@ -27,7 +27,6 @@ variable "subnet" {
   description = "subnet name"
 }
 
-
 variable "gke_username" {
   default     = ""
   description = "gke username"
