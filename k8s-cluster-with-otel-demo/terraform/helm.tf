@@ -1,14 +1,5 @@
 provider "helm" {
-
-  # kubernetes {
-  #   host  = "https://${data.google_container_cluster.my_cluster.endpoint}"
-  #   token = data.google_client_config.default.access_token
-  #   cluster_ca_certificate = base64decode(
-  #     data.google_container_cluster.my_cluster.master_auth[0].cluster_ca_certificate,
-  #   )
-  # }
-
-kubernetes {
+  kubernetes {
     host  = google_container_cluster.primary.endpoint
     client_certificate  = google_container_cluster.primary.master_auth.0.client_certificate
     token    = data.google_client_config.default.access_token
@@ -24,7 +15,6 @@ resource "helm_release" "otel_demo_app" {
   chart            = "opentelemetry-demo"
   timeout          = 120
   namespace        = var.otel_demo_namespace
-  # create_namespace = true
 
   values = [
      "${file("values-ls.yaml")}"
@@ -60,31 +50,3 @@ resource "helm_release" "resources" {
     EOF
   ]
 }
-
-
-
-/* Anoter way to helm
-The provider also supports multiple paths in the same way that kubectl does using the config_paths attribute or KUBE_CONFIG_PATHS environment variable.
-
-provider "helm" {
-  kubernetes {
-    config_paths = [
-      "/path/to/config_a.yaml",
-      "/path/to/config_b.yaml"
-    ]
-  }
-} 
-
-You can also configure the host, basic auth credentials, and client certificate authentication explicitly or through environment variables.
-
-provider "helm" {
-  kubernetes {
-    host     = "https://cluster_endpoint:port"
-
-    client_certificate     = file("~/.kube/client-cert.pem")
-    client_key             = file("~/.kube/client-key.pem")
-    cluster_ca_certificate = file("~/.kube/cluster-ca-cert.pem")
-  }
-}
-
-*/
