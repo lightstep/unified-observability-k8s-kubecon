@@ -15,3 +15,11 @@ module "deploy_otel_demo_app" {
     otel_demo_namespace = var.otel_demo_namespace
     ls_access_token = var.ls_access_token
 }
+
+module "lightstep_dashboards" {
+    source = "./modules/lightstep"
+    depends_on = [module.deploy_otel_demo_app]
+
+    lightstep_project = var.ls_project
+    workloads = var.workloads
+}

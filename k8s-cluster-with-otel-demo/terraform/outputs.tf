@@ -17,3 +17,14 @@ output "kubernetes_cluster_host" {
   value       = module.k8s_cluster_create.kubernetes_cluster_host
   description = "GKE Cluster Host"
 }
+
+output "cluster_dashboard_url" {
+  value       = module.lightstep_dashboards.cluster_dashboard_url
+  description = "OpenTelemetry Collector Kubernetes Cluster Dashboard URL"
+}
+
+
+output "workload_dashboard_url" {
+  value       = module.lightstep_dashboards.workload_dashboard_url
+  description = "OpenTelemetry Collector Kubernetes Workload Dashboard URL"
+}

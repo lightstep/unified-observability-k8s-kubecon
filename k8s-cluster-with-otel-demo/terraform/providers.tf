@@ -8,15 +8,23 @@ terraform {
       source  = "hashicorp/helm"
       version = "~> 2.7.1"
     }
+
+    lightstep = {
+      source = "lightstep/lightstep"
+      version = ">=1.70.0"
+    }
+
   }
 
-  required_version = ">= 0.14"
+  # required_version = ">= 0.14"
+  required_version = ">= v1.0.11"
 }
 
 provider "google" {
   project = var.project_id
   region  = var.region
 }
+
 
 data "google_client_config" "default" {
   depends_on = [
@@ -40,4 +48,9 @@ provider "helm" {
     token    = data.google_client_config.default.access_token
     cluster_ca_certificate = base64decode(data.google_container_cluster.primary.master_auth.0.cluster_ca_certificate)
   }
+}
+
+provider "lightstep" {
+  api_key         = var.ls_api_key
+  organization    = var.ls_org
 }

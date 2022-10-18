@@ -40,3 +40,25 @@ provider "registry.terraform.io/hashicorp/helm" {
     "zh:f569b65999264a9416862bca5cd2a6177d94ccb0424f3a4ef424428912b9cb3c",
   ]
 }
+
+provider "registry.terraform.io/lightstep/lightstep" {
+  version     = "1.70.5"
+  constraints = ">= 1.70.0"
+  hashes = [
+    "h1:6G1WMX+xF1JKxluftXRtEoHtLEOoAs+xc+Yje+VY3cQ=",
+    "zh:12357041c9ef403eeaeb651295d9230bde5989e501490cc88718da94034f6a61",
+    "zh:195a7b608d88ce946b3e2f500245954c838460642804b404947079cd93c8cdb9",
+    "zh:47baf476c94f800501a9af47169b52fb6c2ee8a2d50d6c75b896d07837aa5cea",
+    "zh:4e7bf380c888da40f7fd9ddd43feed7c691ac32ed7362f20cf65c8fa0b9d3dc1",
+    "zh:57c4c01ee5f77fd8817619a59b4f3f8bbb1555667ed37cfc1691a1004c7a8d4b",
+    "zh:6400b6ea84f5c4ef2814ca4a48567bf0a2f95d75d47954cf24e8aea59d3babfa",
+    "zh:651e5d16111cd2a60c2ea165e5d3b0b68336a39d76df4cdc223043ebc68a56b9",
+    "zh:7e899f6412dec45cd75c6c6a7a31c90c23e415291c9a17173ff5e9173560d24d",
+    "zh:8f110e5fc511a551bfb89eaff91a3cfa7776150198d48cc5b4021cc6c08352fe",
+    "zh:9d4f21fe9eefc9654b8cfdc657523163b0b6d241f0d0933046663de1d2296cc9",
+    "zh:a015aa0c786b9119267752538e96570dd570b37c7015faac33f4e537dc49bfa1",
+    "zh:c1c1c33697da86831d6fe9c344edc483c9ad4e4d728658daef1e2bc8f5d6ac68",
+    "zh:fb40bec1a6f266f02f9a6ffc23a417ca531f4a7d6a24cb23f5e8c18bfd1470b5",
+    "zh:fbedc0b372ce340f04f9b027d78fea55fce39437d0b28603570d7af6cfb87d54",
+  ]
+}
