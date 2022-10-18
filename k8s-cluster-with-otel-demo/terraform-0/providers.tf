@@ -26,16 +26,9 @@ provider "google" {
   region  = var.region
 }
 
-data "google_client_config" "default" {
-  depends_on = [
-    module.k8s_cluster_create
-  ]
-}
+data "google_client_config" "default" {}
 
 data "google_container_cluster" "primary" {
-  depends_on = [
-    module.k8s_cluster_create
-  ]
   name     = var.cluster_name
   location = var.region
 }
@@ -43,15 +36,15 @@ data "google_container_cluster" "primary" {
 
 provider "helm" {
   kubernetes {
-    host  = data.google_container_cluster.primary.endpoint
-    # host = module.k8s_cluster_create.kubernetes_cluster_host
+    # host  = data.google_container_cluster.primary.endpoint
+    host = module.k8s_cluster_create.kubernetes_cluster_host
     # host  = var.kubernetes_cluster_host
-    client_certificate  = data.google_container_cluster.primary.master_auth.0.client_certificate
-    # client_certificate = module.k8s_cluster_create.kubernetes_cluster_cert
+    # client_certificate  = data.google_container_cluster.primary.master_auth.0.client_certificate
+    client_certificate = module.k8s_cluster_create.kubernetes_cluster_cert
     # client_certificate  = var.kubernetes_cluster_cert
     token    = data.google_client_config.default.access_token
-    cluster_ca_certificate = base64decode(data.google_container_cluster.primary.master_auth.0.cluster_ca_certificate)
-    # cluster_ca_certificate = module.k8s_cluster_create.kubernetes_cluster_ca_cert
+    # cluster_ca_certificate = base64decode(data.google_container_cluster.primary.master_auth.0.cluster_ca_certificate)
+    cluster_ca_certificate = module.k8s_cluster_create.kubernetes_cluster_ca_cert
     # cluster_ca_certificate = base64decode(var.kubernetes_cluster_ca_cert)
   }
 }
