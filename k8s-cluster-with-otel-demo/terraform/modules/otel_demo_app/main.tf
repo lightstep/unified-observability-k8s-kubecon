@@ -1,9 +1,6 @@
 # Create namespace and k8s secret for LS access token
 # Reference: https://github.com/hashicorp/terraform-provider-kubernetes/issues/1380#issuecomment-962058148
 resource "helm_release" "resources" {
-  # depends_on = [
-  #   google_container_node_pool.primary_nodes
-  # ]
   name       = "external-secrets-cluster-store"
   chart      = "../itscontained/raw"
   values = [
