@@ -10,7 +10,7 @@ module "k8s_cluster_create" {
 
 module "deploy_otel_demo_app" {
     source = "./modules/otel_demo_app"
-    depends_on = [module.k8s_cluster_create]
+    # depends_on = [module.k8s_cluster_create]
 
     kubernetes_cluster_host = module.k8s_cluster_create.kubernetes_cluster_host
     kubernetes_cluster_cert = module.k8s_cluster_create.kubernetes_cluster_cert
