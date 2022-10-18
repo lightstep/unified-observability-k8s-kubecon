@@ -1,18 +1,22 @@
+data "google_client_config" "default" {}
+
 provider "helm" {
   kubernetes {
-    host  = google_container_cluster.primary.endpoint
-    client_certificate  = google_container_cluster.primary.master_auth.0.client_certificate
+    # host  = google_container_cluster.primary.endpoint
+    host  = var.kubernetes_cluster_host
+    # client_certificate  = google_container_cluster.primary.master_auth.0.client_certificate
+    client_certificate  = var.kubernetes_cluster_cert
     token    = data.google_client_config.default.access_token
-    cluster_ca_certificate = base64decode(google_container_cluster.primary.master_auth.0.cluster_ca_certificate)
+    cluster_ca_certificate = base64decode(var.kubernetes_cluster_ca_cert)
   }
 }
 
 # Create namespace and k8s secret for LS access token
 # Reference: https://github.com/hashicorp/terraform-provider-kubernetes/issues/1380#issuecomment-962058148
 resource "helm_release" "resources" {
-  depends_on = [
-    google_container_node_pool.primary_nodes
-  ]
+  # depends_on = [
+  #   google_container_node_pool.primary_nodes
+  # ]
   name       = "external-secrets-cluster-store"
   chart      = "../itscontained/raw"
   values = [
