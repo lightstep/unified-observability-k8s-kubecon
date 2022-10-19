@@ -10,6 +10,10 @@ observability:
       tag: "latest"
       pullPolicy: IfNotPresent
       pullSecrets: []
+    args: ["--memory.max-traces", "10000"]
+    resources:
+      limits:
+        memory: 275Mi
 
 default:
   env:
@@ -42,6 +46,10 @@ default:
     tag: ""
     pullPolicy: IfNotPresent
     pullSecrets: []
+  schedulingRules:
+    nodeSelector: {}
+    affinity: {}
+    tolerations: []
 
 serviceAccount: ""
 
@@ -57,12 +65,24 @@ components:
     ports:
       - name: redis
         value: 6379
+    resources:
+      limits:
+        memory: 20Mi
+    schedulingRules:
+      nodeSelector: {}
+      affinity: {}
+      tolerations: []
 
   adService:
     enabled: true
     useDefault:
       env: true
+
     imageOverride: {}
+    schedulingRules:
+      nodeSelector: {}
+      affinity: {}
+      tolerations: []
     servicePort: 8080
     env:
       - name: OTEL_EXPORTER_OTLP_ENDPOINT
@@ -70,14 +90,20 @@ components:
       - name: AD_SERVICE_PORT
         value: "8080"
     podAnnotations: {}
-    #  sidecar.opentelemetry.io/inject: "false"
-    #  instrumentation.opentelemetry.io/inject-java: "true"
+    resources:
+      limits:
+        memory: 300Mi
 
   cartService:
     enabled: true
     useDefault:
       env: true
+
     imageOverride: {}
+    schedulingRules:
+      nodeSelector: {}
+      affinity: {}
+      tolerations: []
     servicePort: 8080
     env:
       - name: ASPNETCORE_URLS
@@ -89,40 +115,53 @@ components:
       - name: CART_SERVICE_PORT
         value: "8080"
     podAnnotations: {}
-    #  sidecar.opentelemetry.io/inject: "false"
-    #  instrumentation.opentelemetry.io/inject-dotnet: "true"
+    resources:
+      limits:
+        memory: 160Mi
 
   checkoutService:
     enabled: true
     useDefault:
       env: true
+
     imageOverride: {}
+    schedulingRules:
+      nodeSelector: {}
+      affinity: {}
+      tolerations: []
     servicePort: 8080
     env:
       - name: CART_SERVICE_ADDR
-        value: '{{ include "otel-demo.name" . }}-cart-service:8080'
+        value: '{{ include "otel-demo.name" . }}-cartservice:8080'
       - name: CURRENCY_SERVICE_ADDR
-        value: '{{ include "otel-demo.name" . }}-currency-service:8080'
+        value: '{{ include "otel-demo.name" . }}-currencyservice:8080'
       - name: PAYMENT_SERVICE_ADDR
-        value: '{{ include "otel-demo.name" . }}-payment-service:8080'
+        value: '{{ include "otel-demo.name" . }}-paymentservice:8080'
       - name: PRODUCT_CATALOG_SERVICE_ADDR
-        value: '{{ include "otel-demo.name" . }}-product-catalog-service:8080'
+        value: '{{ include "otel-demo.name" . }}-productcatalogservice:8080'
       - name: SHIPPING_SERVICE_ADDR
-        value: '{{ include "otel-demo.name" . }}-shipping-service:8080'
+        value: '{{ include "otel-demo.name" . }}-shippingservice:8080'
       - name: EMAIL_SERVICE_ADDR
-        value: 'http://{{ include "otel-demo.name" . }}-email-service:8080'
+        value: 'http://{{ include "otel-demo.name" . }}-emailservice:8080'
       - name: OTEL_EXPORTER_OTLP_ENDPOINT
         value: 'http://{{ include "otel-demo.name" . }}-otelcol:4317'
       - name: CHECKOUT_SERVICE_PORT
         value: "8080"
     podAnnotations: {}
-    #  instrumentation.opentelemetry.io/inject-sdk: "true"
+    resources:
+      limits:
+        memory: 20Mi
 
   currencyService:
     enabled: true
     useDefault:
       env: true
+
     imageOverride: {}
+    schedulingRules:
+      nodeSelector: {}
+      affinity: {}
+      tolerations: []
     servicePort: 8080
     env:
       - name: PORT
@@ -132,13 +171,21 @@ components:
       - name: CURRENCY_SERVICE_PORT
         value: "8080"
     podAnnotations: {}
-    #  instrumentation.opentelemetry.io/inject-sdk: "true"
+    resources:
+      limits:
+        memory: 20Mi
+
 
   emailService:
     enabled: true
     useDefault:
       env: true
+
     imageOverride: {}
+    schedulingRules:
+      nodeSelector: {}
+      affinity: {}
+      tolerations: []
     servicePort: 8080
     env:
       - name: APP_ENV
@@ -152,13 +199,20 @@ components:
       - name: EMAIL_SERVICE_PORT
         value: "8080"
     podAnnotations: {}
-    #  instrumentation.opentelemetry.io/inject-sdk: "true"
+    resources:
+      limits:
+        memory: 100Mi
 
   featureflagService:
     enabled: true
     useDefault:
       env: true
+
     imageOverride: {}
+    schedulingRules:
+      nodeSelector: {}
+      affinity: {}
+      tolerations: []
     env:
       - name: FEATURE_FLAG_GRPC_SERVICE_PORT
         value: "50053"
@@ -167,7 +221,7 @@ components:
       - name: OTEL_EXPORTER_OTLP_TRACES_PROTOCOL
         value: grpc
       - name: DATABASE_URL
-        value: 'ecto://ffs:ffs@{{ include "otel-demo.name" . }}-ffs-postgres:5432/ffs'
+        value: 'ecto://ffs:ffs@{{ include "otel-demo.name" . }}-ffspostgres:5432/ffs'
       - name: OTEL_EXPORTER_OTLP_ENDPOINT
         value: 'http://{{ include "otel-demo.name" . }}-otelcol:4317'
     ports:
@@ -176,15 +230,23 @@ components:
       - name: http
         value: 8081
     podAnnotations: {}
-    #  instrumentation.opentelemetry.io/inject-sdk: "true"
+    resources:
+      limits:
+        memory: 160Mi
+
 
   ffsPostgres:
     enabled: true
     useDefault:
       env: true
+
     imageOverride:
-      repository: "cimg/postgres"
-      tag: "14.2"
+      repository: "postgres"
+      tag: "14"
+    schedulingRules:
+      nodeSelector: {}
+      affinity: {}
+      tolerations: []
     env:
       - name: POSTGRES_DB
         value: ffs
@@ -198,43 +260,58 @@ components:
       - name: postgres
         value: 5432
     podAnnotations: {}
-    #  instrumentation.opentelemetry.io/inject-sdk: "true"
+    resources:
+      limits:
+        memory: 120Mi
+
 
   frontend:
     enabled: true
     useDefault:
       env: true
+
     imageOverride: {}
+    schedulingRules:
+      nodeSelector: {}
+      affinity: {}
+      tolerations: []
     servicePort: 8080
     env:
       - name: FRONTEND_ADDR
         value: :8080
       - name: AD_SERVICE_ADDR
-        value: '{{ include "otel-demo.name" . }}-ad-service:8080'
+        value: '{{ include "otel-demo.name" . }}-adservice:8080'
       - name: CART_SERVICE_ADDR
-        value: '{{ include "otel-demo.name" . }}-cart-service:8080'
+        value: '{{ include "otel-demo.name" . }}-cartservice:8080'
       - name: CHECKOUT_SERVICE_ADDR
-        value: '{{ include "otel-demo.name" . }}-checkout-service:8080'
+        value: '{{ include "otel-demo.name" . }}-checkoutservice:8080'
       - name: CURRENCY_SERVICE_ADDR
-        value: '{{ include "otel-demo.name" . }}-currency-service:8080'
+        value: '{{ include "otel-demo.name" . }}-currencyservice:8080'
       - name: PRODUCT_CATALOG_SERVICE_ADDR
-        value: '{{ include "otel-demo.name" . }}-product-catalog-service:8080'
+        value: '{{ include "otel-demo.name" . }}-productcatalogservice:8080'
       - name: RECOMMENDATION_SERVICE_ADDR
-        value: '{{ include "otel-demo.name" . }}-recommendation-service:8080'
+        value: '{{ include "otel-demo.name" . }}-recommendationservice:8080'
       - name: SHIPPING_SERVICE_ADDR
-        value: '{{ include "otel-demo.name" . }}-shipping-service:8080'
+        value: '{{ include "otel-demo.name" . }}-shippingservice:8080'
       - name: OTEL_EXPORTER_OTLP_ENDPOINT
         value: 'http://{{ include "otel-demo.name" . }}-otelcol:4317'
       - name: FRONTEND_PORT
         value: "8080"
     podAnnotations: {}
-    #  instrumentation.opentelemetry.io/inject-sdk: "true"
+    resources:
+      limits:
+        memory: 200Mi
 
   loadgenerator:
     enabled: true
     useDefault:
       env: true
+
     imageOverride: {}
+    schedulingRules:
+      nodeSelector: {}
+      affinity: {}
+      tolerations: []
     servicePort: 8089
     env:
       - name: FRONTEND_ADDR
@@ -256,13 +333,20 @@ components:
       - name: LOADGENERATOR_PORT
         value: "8089"
     podAnnotations: {}
-    #  instrumentation.opentelemetry.io/inject-python: "true"
+    resources:
+      limits:
+        memory: 120Mi
 
   paymentService:
     enabled: true
     useDefault:
       env: true
+
     imageOverride: {}
+    schedulingRules:
+      nodeSelector: {}
+      affinity: {}
+      tolerations: []
     servicePort: 8080
     env:
       - name: OTEL_EXPORTER_OTLP_ENDPOINT
@@ -270,13 +354,20 @@ components:
       - name: PAYMENT_SERVICE_PORT
         value: "8080"
     podAnnotations: {}
-    #  instrumentation.opentelemetry.io/inject-nodejs: "true"
+    resources:
+      limits:
+        memory: 70Mi
 
   productCatalogService:
     enabled: true
     useDefault:
       env: true
+
     imageOverride: {}
+    schedulingRules:
+      nodeSelector: {}
+      affinity: {}
+      tolerations: []
     servicePort: 8080
     env:
       - name: OTEL_EXPORTER_OTLP_ENDPOINT
@@ -284,15 +375,22 @@ components:
       - name: PRODUCT_CATALOG_SERVICE_PORT
         value: "8080"
       - name: FEATURE_FLAG_GRPC_SERVICE_ADDR
-        value: '{{ include "otel-demo.name" . }}-featureflag-service:50053'
+        value: '{{ include "otel-demo.name" . }}-featureflagservice:50053'
     podAnnotations: {}
-    #  instrumentation.opentelemetry.io/inject-sdk: "true"
+    resources:
+      limits:
+        memory: 20Mi
 
   recommendationService:
     enabled: true
     useDefault:
       env: true
+
     imageOverride: {}
+    schedulingRules:
+      nodeSelector: {}
+      affinity: {}
+      tolerations: []
     servicePort: 8080
     env:
       - name: OTEL_PYTHON_LOG_CORRELATION
@@ -304,15 +402,22 @@ components:
       - name: RECOMMENDATION_SERVICE_PORT
         value: "8080"
       - name: PRODUCT_CATALOG_SERVICE_ADDR
-        value: '{{ include "otel-demo.name" . }}-product-catalog-service:8080'
+        value: '{{ include "otel-demo.name" . }}-productcatalogservice:8080'
     podAnnotations: {}
-    #  instrumentation.opentelemetry.io/inject-python: "true"
+    resources:
+      limits:
+        memory: 500Mi            # This is high to enable supporting the recommendationCache feature flag use case
 
   shippingService:
     enabled: true
     useDefault:
       env: true
+
     imageOverride: {}
+    schedulingRules:
+      nodeSelector: {}
+      affinity: {}
+      tolerations: []
     servicePort: 8080
     env:
       - name: PORT
@@ -324,15 +429,22 @@ components:
       - name: SHIPPING_SERVICE_PORT
         value: "8080"
       - name: QUOTE_SERVICE_ADDR
-        value: 'http://{{ include "otel-demo.name" . }}-quote-service:8080'
+        value: 'http://{{ include "otel-demo.name" . }}-quoteservice:8080'
     podAnnotations: {}
-    #  instrumentation.opentelemetry.io/inject-sdk: "true"
+    resources:
+      limits:
+        memory: 20Mi
 
   quoteService:
     enabled: true
     useDefault:
       env: true
+
     imageOverride: {}
+    schedulingRules:
+      nodeSelector: {}
+      affinity: {}
+      tolerations: []
     servicePort: 8080
     env:
       - name: OTEL_TRACES_SAMPLER
@@ -348,8 +460,9 @@ components:
       - name: QUOTE_SERVICE_PORT
         value: "8080"
     podAnnotations: {}
-    #  instrumentation.opentelemetry.io/inject-sdk: "true"
-
+    resources:
+      limits:
+        memory: 30Mi
 
 opentelemetry-collector:
   nameOverride: otelcol
@@ -360,6 +473,9 @@ opentelemetry-collector:
         secretKeyRef:
           key: LS_TOKEN
           name: otel-collector-secret
+  resources:
+    limits:
+      memory: 100Mi
   config:
     exporters:
       otlp/ls:
@@ -369,6 +485,11 @@ opentelemetry-collector:
           insecure_skip_verify: true
         headers:
           "lightstep-access-token": "${LS_TOKEN}"
+
+      otlp:
+        endpoint: '{{ .Release.Name }}-jaeger:4317'
+        tls:
+          insecure: true
 
       logging:
         logLevel: debug
@@ -382,4 +503,5 @@ opentelemetry-collector:
         traces:
           exporters:
             - logging
+            - otlp
             - otlp/ls
