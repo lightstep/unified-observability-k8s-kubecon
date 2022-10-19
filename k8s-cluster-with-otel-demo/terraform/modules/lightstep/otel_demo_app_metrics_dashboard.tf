@@ -44,7 +44,7 @@ EOT
       display      = "line"
       hidden       = false
       query_string = <<EOT
-      metric app.recommendations.counter 
+      metric app_recommendations_counter 
       | rate 
       | group_by [], 
       sum
@@ -181,7 +181,7 @@ EOT
   }
 
   chart {
-    name = "app.recommendations.request.counter"
+    name = "app_recommendations_request_counter"
     rank = "8"
     type = "timeseries"
 
@@ -190,7 +190,7 @@ EOT
       display      = "bar"
       hidden       = false
       query_string = <<EOT
-metric app.recommendations.request.counter 
+metric app_recommendations_request_counter 
 | filter (application.name == "otel-demo") 
 | rate 
 | group_by [],
