@@ -15,16 +15,16 @@ resource "lightstep_dashboard" "exported_dashboard" {
       query_string = <<EOT
 spans latency 
 | delta 
-| filter ((((((((((((service == "adservice") 
-|| (service == "cartservice")) 
-|| (service == "checkoutservice")) 
-|| (service == "currencyservice")) 
-|| (service == "emailservice")) 
-|| (service == "featureflagservice")) 
+| filter ((((((((((((service == "ad-service") 
+|| (service == "cart-service")) 
+|| (service == "checkout-service")) 
+|| (service == "currency-service")) 
+|| (service == "email-service")) 
+|| (service == "featureflag-service")) 
 || (service == "frontend")) 
-|| (service == "paymentservice")) 
-|| (service == "productcatalogservice")) 
-|| (service == "quoteservice")) 
+|| (service == "payment-service")) 
+|| (service == "product-catalog-service")) 
+|| (service == "quote-service")) 
 || (service == "recommendationservice")) 
 || (service == "shippingservice")) 
 | group_by ["service"], sum 
@@ -100,7 +100,7 @@ EOT
       query_string = <<EOT
  spans latency 
  | delta 
- | filter ((service == "cartservice") 
+ | filter ((service == "cart-service") 
  && (operation == "hipstershop.CartService/GetCart")) 
  | group_by ["operation"], 
  sum 
@@ -142,19 +142,19 @@ EOT
       query_string = <<EOT
 spans count 
 | rate 10m 
-| filter (((((((((((((service == "adservice") 
-|| (service == "cartservice")) 
-|| (service == "checkoutservice")) 
-|| (service == "currencyservice")) 
-|| (service == "emailservice")) 
-|| (service == "featureflagservice")) 
+| filter (((((((((((((service == "ad-service") 
+|| (service == "cart-service")) 
+|| (service == "checkout-service")) 
+|| (service == "currency-service")) 
+|| (service == "email-service")) 
+|| (service == "featureflag-service")) 
 || (service == "frontend")) 
 || (service == "loadgenerator")) 
-|| (service == "paymentservice")) 
-|| (service == "productcatalogservice")) 
-|| (service == "quoteservice")) 
-|| (service == "recommendationservice")) 
-|| (service == "shippingservice")) 
+|| (service == "payment-service")) 
+|| (service == "product-catalog-service")) 
+|| (service == "quote-service")) 
+|| (service == "recommendation-service")) 
+|| (service == "shipping-service")) 
 | group_by ["service"], 
 sum      
 EOT
@@ -210,7 +210,7 @@ EOT
       query_string = <<EOT
 spans count 
 | delta 
-| filter ((service == "adservice") 
+| filter ((service == "ad-service") 
 && (app.ads.count == 0)) 
 | group_by [], 
 sum
