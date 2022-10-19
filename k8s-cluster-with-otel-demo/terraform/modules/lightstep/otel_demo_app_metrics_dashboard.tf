@@ -121,7 +121,7 @@ EOT
       query_string = <<EOT
 spans latency 
 | delta 
-| filter ((service == "productcatalog-service") 
+| filter ((service == "product-catalog-service") 
 && (operation == "hipstershop.ProductCatalogService/GetProduct")) 
 | group_by ["operation"], 
 sum 
