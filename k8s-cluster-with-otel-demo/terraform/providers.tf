@@ -30,22 +30,18 @@ provider "google" {
 
 
 data "google_client_config" "default" {
-  depends_on = [
-    module.k8s_cluster_create
-  ]
+  depends_on = [module.k8s_cluster_create]
 }
 
 data "google_container_cluster" "primary" {
-  depends_on = [
-    module.k8s_cluster_create
-  ]
+  depends_on = [module.k8s_cluster_create]
   name     = var.cluster_name
   location = var.region
 }
 
 
 provider "kubernetes" {
-  host  = data.google_container_cluster.primary.endpoint
+  host  = "https://${data.google_container_cluster.primary.endpoint}"
   token = data.google_client_config.default.access_token
   cluster_ca_certificate = base64decode(
     data.google_container_cluster.primary.master_auth.0.cluster_ca_certificate
