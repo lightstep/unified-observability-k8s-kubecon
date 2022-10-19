@@ -368,10 +368,21 @@ opentelemetry-collector:
         tls:
           insecure_skip_verify: true
         headers:
-          "lightstep-access-token": "${LS_TOKEN}"
+          "lightstep-access-token": "${LS_TOKEN}"      
+      receivers:
+        prometheus:
+      config:
+        scrape_configs:
+          - job_name: 'otel-ksm'
+            static_configs:
+           - targets: ['ksm.kube-system.svc.cluster.local']
+           # https://docs.lightstep.com/docs/ingest-metrics-kube-state-metrics
+
 
       logging:
         logLevel: debug
+      prometheus:
+       endpoint: "otelcol:9464"
 
     service:
       pipelines:
@@ -379,6 +390,7 @@ opentelemetry-collector:
           exporters:
             - logging
             - otlp/ls
+            - prometheus
         traces:
           exporters:
             - logging
