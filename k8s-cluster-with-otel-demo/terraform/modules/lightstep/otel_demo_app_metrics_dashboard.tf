@@ -121,7 +121,7 @@ EOT
       query_string = <<EOT
 spans latency 
 | delta 
-| filter ((service == "productcatalogservice") 
+| filter ((service == "productcatalog-service") 
 && (operation == "hipstershop.ProductCatalogService/GetProduct")) 
 | group_by ["operation"], 
 sum 
@@ -180,24 +180,6 @@ EOT
     }
   }
 
-  chart {
-    name = "app_recommendations_request_counter"
-    rank = "8"
-    type = "timeseries"
-
-    query {
-      query_name   = "a"
-      display      = "bar"
-      hidden       = false
-      query_string = <<EOT
-metric app_recommendations_request_counter 
-| filter (application.name == "otel-demo") 
-| rate 
-| group_by [],
-sum
-EOT
-    }
-  }
   chart {
     name = "Ads count"
     rank = "9"
