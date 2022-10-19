@@ -56,11 +56,3 @@ Steps:
     # Option 2: Use Terraform output variables to update kubeconfig
     gcloud container clusters get-credentials $(terraform output -raw kubernetes_cluster_name) --region $(terraform output -raw region)
     ```
-
-## FAQ
-
-### What is `itscontained`?
-
-Great question! Well, it turns out that you run into a bit of a chicken-and-egg scenario when you try to create k8s resources after you create a k8s cluster. You can read all about everyone's frustrations [here](https://github.com/hashicorp/terraform-provider-kubernetes/issues/1380#issuecomment-962058148).
-
-The solution to this problem is presented [here](https://medium.com/@danieljimgarcia/dont-use-the-terraform-kubernetes-manifest-resource-6c7ff4fe629a). Unfortunately, the Helm repo [https://charts.itscontained.io](https://charts.itscontained.io) gives you a nice 404 error. See for yourself. Fortunately, the [GitHub repo with the Helm chart](https://github.com/itscontained/charts/tree/master/itscontained) still exists. I wasn't able to run the chart from the repo, so I did the next best thing - made a local copy of it and put it in this repo, which resides in the `itscontained` folder.
