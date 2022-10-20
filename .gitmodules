@@ -1,0 +1,6 @@
+[submodule "otel-demo/prometheus-k8s-opentelemetry-collector"]
+	path = otel-demo/prometheus-k8s-opentelemetry-collector
+	url = https://github.com/lightstep/prometheus-k8s-opentelemetry-collector
+[submodule "otel-demo/terraform-opentelemetry-dashboards"]
+	path = otel-demo/terraform-opentelemetry-dashboards
+	url = https://github.com/lightstep/terraform-opentelemetry-dashboards

@@ -2,7 +2,7 @@
 
 This describes how to run demo scenarios for Lightstep.
 
-## k8s 1.25+ Tracing (Minikube)
+## k8s 1.25+ Tracing (k3s)
 
 Requirements
 - DigitalOcean Account w/PAT
@@ -27,3 +27,4 @@ Requirements
 5. In `k8s-tracing`, run `terraform apply` to create the necessary resources.
 
 ## Unified Observability for k8s w/OpenTelemetry
+
