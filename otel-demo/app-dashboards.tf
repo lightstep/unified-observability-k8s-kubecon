@@ -189,13 +189,7 @@ EOT
       query_name   = "a"
       display      = "bar"
       hidden       = false
-      query_string = <<EOT
-metric app.recommendations.request.counter 
-| filter (application.name == "otel-demo") 
-| rate 
-| group_by [],
-sum
-EOT
+      query_string = "metric app_recommendations_counter | filter (service == \"recommendationservice\") | rate | group_by [], sum"
     }
   }
   chart {

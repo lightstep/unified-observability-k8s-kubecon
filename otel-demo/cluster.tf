@@ -108,6 +108,7 @@ resource "helm_release" "otel-demo" {
     name = "demo"
     repository = "https://open-telemetry.github.io/opentelemetry-helm-charts"
     chart = "opentelemetry-demo"
+    version = "0.9.4"
     namespace = "otel-demo"
     values = [
         "${file("demo-values.yaml")}"
