@@ -19,14 +19,6 @@ provider "helm" {
     )
   }
 }
-
-resource "local_file" "kubeconfig" {
-  depends_on = [digitalocean_kubernetes_cluster.otel-demo-cluster]
-  count      = var.write_kubeconfig ? 1 : 0
-  content    = digitalocean_kubernetes_cluster.otel-demo-cluster.kube_config[0].raw_config
-  filename   = "${path.root}/kubeconfig"
-}
-
 provider "kubernetes" {
   host             = digitalocean_kubernetes_cluster.otel-demo-cluster.endpoint
   token            = digitalocean_kubernetes_cluster.otel-demo-cluster.kube_config[0].token
@@ -108,7 +100,7 @@ resource "helm_release" "otel-demo" {
     name = "demo"
     repository = "https://open-telemetry.github.io/opentelemetry-helm-charts"
     chart = "opentelemetry-demo"
-    version = "0.9.4"
+    version = "0.9.6"
     namespace = "otel-demo"
     values = [
         "${file("demo-values.yaml")}"

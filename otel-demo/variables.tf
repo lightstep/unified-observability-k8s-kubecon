@@ -38,8 +38,3 @@ variable "otel_demo_namespace" {
   default = "otel-demo"
   description = "OTel Demo app namespace"
 }
-
-variable "write_kubeconfig" {
-  default = true
-  description = "write kubeconfig to disk"
-}
