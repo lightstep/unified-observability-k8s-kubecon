@@ -93,6 +93,7 @@ resource "helm_release" "otel-kube-stack" {
         file("./prometheus-k8s-opentelemetry-collector/kube-otel-stack/values.yaml")
     ]
     namespace = "otel-kube-stack"
+    dependency_update = true
     wait_for_jobs = true
 }
 
