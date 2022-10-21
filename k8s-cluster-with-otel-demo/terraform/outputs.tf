@@ -9,11 +9,22 @@ output "project_id" {
 }
 
 output "kubernetes_cluster_name" {
-  value       = google_container_cluster.primary.name
+  value       = module.k8s_cluster_create.kubernetes_cluster_name
   description = "GKE Cluster Name"
 }
 
 output "kubernetes_cluster_host" {
-  value       = google_container_cluster.primary.endpoint
+  value       = module.k8s_cluster_create.kubernetes_cluster_host
   description = "GKE Cluster Host"
+}
+
+output "cluster_dashboard_url" {
+  value       = module.lightstep_dashboards.cluster_dashboard_url
+  description = "OpenTelemetry Collector Kubernetes Cluster Dashboard URL"
+}
+
+
+output "workload_dashboard_url" {
+  value       = module.lightstep_dashboards.workload_dashboard_url
+  description = "OpenTelemetry Collector Kubernetes Workload Dashboard URL"
 }

@@ -27,19 +27,30 @@ variable "subnet" {
   description = "subnet name"
 }
 
-
-variable "gke_username" {
-  default     = ""
-  description = "gke username"
-}
-
-variable "gke_password" {
-  default     = ""
-  description = "gke password"
-}
-
 variable "gke_num_nodes" {
   default     = 2
   description = "number of gke nodes"
 }
 
+variable "ls_api_key" {
+  description = "Lightstep API key"
+  type        = string
+}
+
+variable "ls_org" {
+  description = "Lightstep organization"
+  type        = string
+}
+
+variable "ls_project" {
+  description = "Name of Lightstep project"
+  type        = string
+}
+
+variable "workloads" {
+  description = "List of monitored workloads for creating dashboards"
+  type = list(object({
+    namespace = string
+    workload  = string
+  }))
+}
