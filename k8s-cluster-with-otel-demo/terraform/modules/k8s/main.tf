@@ -32,10 +32,12 @@ resource "google_container_node_pool" "primary_nodes" {
     }
 
     # preemptible  = true
-    machine_type = "n1-standard-1"
+    machine_type = "n2-standard-2"
     tags         = ["gke-node", var.cluster_name]
     metadata = {
       disable-legacy-endpoints = "true"
     }
   }
 }
+
+data "google_client_config" "default" {}

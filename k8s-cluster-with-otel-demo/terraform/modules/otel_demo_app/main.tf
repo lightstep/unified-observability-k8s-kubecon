@@ -1,3 +1,22 @@
+# Retrieve an access token as the Terraform runner
+data "google_client_config" "provider" {} 
+
+module "k8s_cluster_create" {
+  source = "../../modules/k8s"
+
+    cluster_name = var.cluster_name
+    project_id = var.project_id
+    region = var.region
+    network = var.network
+    subnet = var.subnet
+}
+
+provider "kubernetes" {
+  host  = "https://${module.k8s_cluster_create.kubernetes_cluster_host}"
+  token = module.k8s_cluster_create.access_token 
+  cluster_ca_certificate = base64decode(module.k8s_cluster_create.ca_certificate) 
+}
+
 # Create namespace and k8s secret for LS access token
 resource "kubernetes_namespace_v1" "otel_demo_ns" {
   metadata {
@@ -74,16 +93,24 @@ resource "helm_release" "otel_demo_app" {
 
 
 
-resource "kubernetes_secret_v1" "ls_access_token" {
-  depends_on = [helm_release.otel_demo_app]
+resource "kubernetes_secret_v1""ls_access_token" {
   metadata {
-    name = "otel-collector-secret"
-    namespace = var.otel_demo_namespace
-  }
-  data = {
-    LS_TOKEN = var.ls_access_token
+    name      = "otel-collector-secret"
+    namespace = "otel-kube-stack"
   }
 
-  type = "Opaque"
+  data = {
+    "LS_TOKEN" = var.ls_access_token
+  }
 }
 
+resource "kubernetes_secret_v1" "ls_access_token_demo" {
+  metadata {
+    name      = "otel-collector-secret"
+    namespace = "otel-demo"
+  }
+
+  data = {
+    "LS_TOKEN" = var.ls_access_token
+  }
+}

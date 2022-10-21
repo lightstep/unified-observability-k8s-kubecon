@@ -21,3 +21,19 @@ variable "opentelemetry_operator_namespace" {
 variable "ls_access_token" {
   description = "Lightstep access token"
 }
+
+variable "cluster_name" {
+  description = "cluster name"
+}
+
+variable "project_id" {
+  description = "project id"
+}
+
+variable "region" {
+  description = "region"
+}
+
+variable "network" {
+  description = "network name"
+}
