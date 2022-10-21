@@ -1,7 +1,7 @@
 
 resource "lightstep_dashboard" "exported_dashboard" {
   project_name   = var.lightstep_project
-  dashboard_name = "oTel Demo App - Application Metrics"
+  dashboard_name = "OTel Demo App - Application Metrics"
 
   chart {
     name = "Latency per Service"
@@ -34,45 +34,27 @@ EOT
 
   }
 
-  chart {
-    name = "Concurrent Requests"
-    rank = "1"
-    type = "timeseries"
+#   chart {
+#     name = "Concurrent Requests"
+#     rank = "1"
+#     type = "timeseries"
 
-    query {
-      query_name   = "a"
-      display      = "line"
-      hidden       = false
-      query_string = <<EOT
-      metric app_recommendations_counter 
-      | rate 
-      | group_by [], 
-      sum
-EOT
-    }
+#     query {
+#       query_name   = "a"
+#       display      = "line"
+#       hidden       = false
+#       query_string = <<EOT
+#       metric app_recommendations_counter 
+#       | rate 
+#       | group_by [], 
+#       sum
+# EOT
+#     }
 
-  }
-  chart {
-    name = "CPU %"
-    rank = "2"
-    type = "timeseries"
-
-    query {
-      query_name   = "(a * 100)"
-      display      = "area"
-      hidden       = false
-      query_string = <<EOT
-metric runtime.cpython.cpu_time 
-| rate 
-| group_by [], 
-sum 
-| point (value * 100)
-  EOT
-    }
-  }
+#   }
   chart {
     name = "Orders Placed"
-    rank = "3"
+    rank = "1"
     type = "timeseries"
 
     query {
@@ -90,7 +72,7 @@ EOT
   }
   chart {
     name = "/GetCart latency"
-    rank = "4"
+    rank = "2"
     type = "timeseries"
 
     query {
@@ -111,7 +93,7 @@ EOT
 
   chart {
     name = "/GetProduct latency"
-    rank = "5"
+    rank = "3"
     type = "timeseries"
 
     query {
@@ -132,7 +114,7 @@ EOT
 
   chart {
     name = "Rate per Service"
-    rank = "6"
+    rank = "4"
     type = "timeseries"
 
     query {
@@ -163,7 +145,7 @@ EOT
   }
   chart {
     name = "Order Confirmations Sent"
-    rank = "7"
+    rank = "5"
     type = "timeseries"
 
     query {
@@ -181,8 +163,8 @@ EOT
   }
 
   chart {
-    name = "app.recommendations.request.counter"
-    rank = "8"
+    name = "recommendationservice app_recommendations_counter"
+    rank = "6"
     type = "timeseries"
 
     query {
@@ -190,17 +172,17 @@ EOT
       display      = "bar"
       hidden       = false
       query_string = <<EOT
-metric app.recommendations.request.counter 
-| filter (application.name == "otel-demo") 
+metric app_recommendations_counter 
+| filter (service.name == "recommendationservice") 
 | rate 
-| group_by [],
-sum
+| group_by [], 
+sum      
 EOT
     }
   }
   chart {
     name = "Ads count"
-    rank = "9"
+    rank = "7"
     type = "timeseries"
 
     query {
@@ -219,7 +201,7 @@ EOT
   }
   chart {
     name = "CartService/GetCart [Count]"
-    rank = "10"
+    rank = "8"
     type = "timeseries"
 
     query {
@@ -242,7 +224,7 @@ EOT
 
   chart {
     name = "otlp.exporter.seen"
-    rank = "11"
+    rank = "9"
     type = "timeseries"
 
     query {
@@ -253,9 +235,29 @@ EOT
     }
 
   }
+
+  chart {
+    name = "runtime.cpython.cpu_time"
+    rank = "10"
+    type = "timeseries"
+
+    query {
+      query_name   = "(a * 100)"
+      display      = "area"
+      hidden       = false
+      query_string = <<EOT
+metric runtime.cpython.cpu_time 
+| rate 
+| group_by [], 
+sum 
+| point (value * 100)
+  EOT
+    }
+  }
+
   chart {
     name = "runtime.cpython.gc_count"
-    rank = "12"
+    rank = "11"
     type = "timeseries"
 
     query {
@@ -273,7 +275,7 @@ EOT
 
   chart {
     name = "runtime.cpython.memory"
-    rank = "13"
+    rank = "12"
     type = "timeseries"
 
     query {

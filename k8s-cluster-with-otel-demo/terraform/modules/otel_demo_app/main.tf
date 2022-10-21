@@ -30,7 +30,7 @@ resource "helm_release" "otel_demo_app" {
   wait             = false
 
   values = [
-     "${file("values-ls.yaml")}"
+     "${file("configs/otel-demo-app-values.yaml")}" 
   ]
 }
 
@@ -79,7 +79,7 @@ resource "helm_release" "otel-kube-stack" {
     chart = "./prometheus-k8s-opentelemetry-collector/kube-otel-stack"
     dependency_update = true
     values = [
-        file("./prometheus-k8s-opentelemetry-collector/kube-otel-stack/values.yaml")
+        "${file("configs/prometheus-values.yaml")}"
     ]
     namespace = var.otel_kube_stack_namespace
     wait_for_jobs = true

@@ -9,83 +9,83 @@ module "kube-dashboards" {
     },
     {
       namespace = "kube-system"
-      workload = "cillium"
+      workload = "otel-demo-app-cillium"
     },
     {
       namespace = "kube-system"
-      workload = "coredns"
+      workload = "otel-demo-app-coredns"
     },
     {
       namespace = "kube-system"
-      workload = "konnectivity-agent"
+      workload = "otel-demo-app-konnectivity-agent"
     },
     {
       namespace = "otel-demo"
-      workload = "demo-adservice"
+      workload = "otel-demo-app-adservice"
     },
     {
       namespace = "otel-demo"
-      workload = "demo-recommendationservice"
+      workload = "otel-demo-app-recommendationservice"
     },
     {
       namespace = "otel-demo"
-      workload = "demo-cartservice"
+      workload = "otel-demo-app-cartservice"
     },
     {
       namespace = "otel-demo"
-      workload = "demo-checkoutservice"
+      workload = "otel-demo-app-checkoutservice"
     },
     {
       namespace = "otel-demo"
-      workload = "demo-currencyservice"
+      workload = "otel-demo-app-currencyservice"
     },
     {
       namespace = "otel-demo"
-      workload = "demo-emailservice"
+      workload = "otel-demo-app-emailservice"
     },
     {
       namespace = "otel-demo"
-      workload = "demo-featureflagservice"
+      workload = "otel-demo-app-featureflagservice"
     },
     {
       namespace = "otel-demo"
-      workload = "demo-ffpostgres"
+      workload = "otel-demo-app-ffpostgres"
     },
     {
       namespace = "otel-demo"
-      workload = "demo-frontend"
+      workload = "otel-demo-app-frontend"
     },
     {
       namespace = "otel-demo"
-      workload = "demo-jaeger"
+      workload = "otel-demo-app-jaeger"
     },
     {
       namespace = "otel-demo"
-      workload = "demo-loadgenerator"
+      workload = "otel-demo-app-loadgenerator"
     },
     {
       namespace = "otel-demo"
-      workload = "demo-otelcol"
+      workload = "otel-demo-app-otelcol"
     },
     {
       namespace = "otel-demo"
-      workload = "demo-paymentservice"
+      workload = "otel-demo-app-paymentservice"
     },
     {
       namespace = "otel-demo"
-      workload = "demo-productcatalogservice"
+      workload = "otel-demo-app-productcatalogservice"
     },
     {
       namespace = "otel-demo"
-      workload = "demo-quoteservice"
+      workload = "otel-demo-app-quoteservice"
     },
     {
       namespace = "otel-demo"
-      workload = "demo-redis"
+      workload = "otel-demo-app-redis"
     },
     {
       namespace = "otel-demo"
-      workload = "demo-shippingservice"
+      workload = "otel-demo-app-shippingservice"
     }
 
 
