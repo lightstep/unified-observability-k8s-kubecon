@@ -59,11 +59,11 @@ resource "kubernetes_namespace_v1" "otel_kube_stack_ns" {
   }
 }
 
-resource "kubernetes_namespace_v1" "cert_manager_ns" {
-  metadata {
-    name = var.cert_manager_namespace
-  }
-}
+# resource "kubernetes_namespace_v1" "cert_manager_ns" {
+#   metadata {
+#     name = var.cert_manager_namespace
+#   }
+# }
 
 resource "kubernetes_namespace_v1" "opentelemetry_operator_ns" {
   metadata {
@@ -107,14 +107,13 @@ resource "helm_release" "otel-kube-stack" {
     ]
     namespace = var.otel_kube_stack_namespace
     wait_for_jobs = true
-    # create_namespace = true
 }
 
 resource "kubernetes_secret_v1" "ls_access_token" {
   depends_on = [kubernetes_namespace_v1.otel_kube_stack_ns]
   metadata {
     name      = "otel-collector-secret"
-    namespace = "otel-kube-stack"
+    namespace = var.otel_kube_stack_namespace
   }
 
   data = {
