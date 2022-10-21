@@ -44,7 +44,7 @@ EOT
       display      = "line"
       hidden       = false
       query_string = <<EOT
-      metric app.recommendations.counter 
+      metric app_recommendations_counter 
       | rate 
       | group_by [], 
       sum
