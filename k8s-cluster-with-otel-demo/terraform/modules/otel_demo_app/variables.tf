@@ -13,6 +13,11 @@ variable "cert_manager_namespace" {
   description = "cert-manager namespace"
 }
 
+variable "otel-operator_namespace" {
+  default = "otel-operator"
+  description = "otel-operator namespace"
+}
+
 variable "opentelemetry_operator_namespace" {
   default = "opentelemetry-operator"
   description = "opentelemetry-operator namespace"
@@ -36,4 +41,8 @@ variable "region" {
 
 variable "network" {
   description = "network name"
+}
+
+variable "subnet" {
+  description = "subnet name"
 }

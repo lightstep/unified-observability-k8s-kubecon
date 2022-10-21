@@ -5,10 +5,11 @@ module "k8s_cluster_create" {
   source = "../../modules/k8s"
 
     cluster_name = var.cluster_name
+    subnet = var.subnet
     project_id = var.project_id
     region = var.region
     network = var.network
-    subnet = var.subnet
+
 }
 
 provider "kubernetes" {
@@ -64,6 +65,7 @@ resource "helm_release" "otel-operator" {
     repository = "https://open-telemetry.github.io/opentelemetry-helm-charts"
     chart = "opentelemetry-operator"
     wait_for_jobs = true
+    create_namespace = true
 }
 
 # Deploy otel kube stack
@@ -76,6 +78,7 @@ resource "helm_release" "otel-kube-stack" {
     ]
     namespace = var.otel_kube_stack_namespace
     wait_for_jobs = true
+    create_namespace = true
 }
 
 resource "helm_release" "otel_demo_app" {
@@ -85,6 +88,7 @@ resource "helm_release" "otel_demo_app" {
   chart            = "opentelemetry-demo"
   timeout          = 120
   namespace        = var.otel_demo_namespace
+  create_namespace = true
 
   values = [
      "${file("values-ls.yaml")}"
