@@ -18,7 +18,7 @@ module "deploy_otel_demo_app" {
 
 module "lightstep_dashboards" {
     source = "./modules/lightstep"
-    depends_on = [module.deploy_otel_demo_app]
+    depends_on = [module.k8s_cluster_create]
 
     lightstep_project = var.ls_project
     workloads = var.workloads
