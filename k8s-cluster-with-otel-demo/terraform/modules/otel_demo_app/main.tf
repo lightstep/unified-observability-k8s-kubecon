@@ -25,6 +25,7 @@ resource "helm_release" "otel_demo_app" {
   name             = "otel-demo-app"
   repository       = "https://open-telemetry.github.io/opentelemetry-helm-charts"
   chart            = "opentelemetry-demo"
+  version          = "0.9.6"  
   timeout          = 120
   namespace        = var.otel_demo_namespace
   wait             = false
