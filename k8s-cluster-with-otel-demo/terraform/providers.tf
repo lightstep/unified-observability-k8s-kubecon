@@ -14,9 +14,12 @@ terraform {
       version = ">=1.70.0"
     }
 
+    kubernetes = {
+      source = "hashicorp/kubernetes"
+    }
+
   }
 
-  # required_version = ">= 0.14"
   required_version = ">= v1.0.11"
 }
 
@@ -27,19 +30,23 @@ provider "google" {
 
 
 data "google_client_config" "default" {
-  depends_on = [
-    module.k8s_cluster_create
-  ]
+  depends_on = [module.k8s_cluster_create]
 }
 
 data "google_container_cluster" "primary" {
-  depends_on = [
-    module.k8s_cluster_create
-  ]
+  depends_on = [module.k8s_cluster_create]
   name     = var.cluster_name
   location = var.region
 }
 
+
+provider "kubernetes" {
+  host  = "https://${data.google_container_cluster.primary.endpoint}"
+  token = data.google_client_config.default.access_token
+  cluster_ca_certificate = base64decode(
+    data.google_container_cluster.primary.master_auth.0.cluster_ca_certificate
+  )
+}
 
 provider "helm" {
   kubernetes {
