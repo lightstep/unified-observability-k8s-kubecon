@@ -47,10 +47,10 @@ variable "ls_project" {
   type        = string
 }
 
-variable "workloads" {
-  description = "List of monitored workloads for creating dashboards"
-  type = list(object({
-    namespace = string
-    workload  = string
-  }))
-}
+# variable "workloads" {
+#   description = "List of monitored workloads for creating dashboards"
+#   type = list(object({
+#     namespace = string
+#     workload  = string
+#   }))
+# }

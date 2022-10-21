@@ -5,27 +5,23 @@ module "kube-dashboards" {
   workloads = [
     {
       namespace = "cert-manager"
-      workload  = "cert-manager"
+      workload = "cert-manager"
     },
     {
       namespace = "kube-system"
-      workload = "otel-demo-app-cillium"
+      workload = "event-exporter-gke"
     },
     {
       namespace = "kube-system"
-      workload = "otel-demo-app-coredns"
+      workload = "metrics-server-v0.4.5"
     },
     {
-      namespace = "kube-system"
-      workload = "otel-demo-app-konnectivity-agent"
+      namespace = "opentelemetry-operator"
+      workload = "opentelemetry-operator-controller-manager"
     },
     {
       namespace = "otel-demo"
       workload = "otel-demo-app-adservice"
-    },
-    {
-      namespace = "otel-demo"
-      workload = "otel-demo-app-recommendationservice"
     },
     {
       namespace = "otel-demo"
@@ -49,7 +45,7 @@ module "kube-dashboards" {
     },
     {
       namespace = "otel-demo"
-      workload = "otel-demo-app-ffpostgres"
+      workload = "otel-demo-app-ffspostgres"
     },
     {
       namespace = "otel-demo"
@@ -81,13 +77,28 @@ module "kube-dashboards" {
     },
     {
       namespace = "otel-demo"
+      workload = "otel-demo-app-recommendationservice"
+    },
+    {
+      namespace = "otel-demo"
       workload = "otel-demo-app-redis"
     },
     {
       namespace = "otel-demo"
       workload = "otel-demo-app-shippingservice"
+    },
+    {
+      namespace = "kube-system"
+      workload = "gke-metrics-agent"
+    },
+    {
+      namespace = "otel-kube-stack"
+      workload = "otel-kube-stack-prometheus-node-exporter"
+    },
+    {
+      namespace = "otel-kube-stack"
+      workload = "otel-kube-stack-statefulset-collector"
     }
-
 
   ]
 }
