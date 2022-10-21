@@ -1,23 +1,6 @@
 # Retrieve an access token as the Terraform runner
 data "google_client_config" "provider" {} 
 
-# # module "k8s_cluster_create" {
-# #   source = "../../modules/k8s"
-
-# #     cluster_name = var.cluster_name
-# #     subnet = var.subnet
-# #     project_id = var.project_id
-# #     region = var.region
-# #     network = var.network
-
-# # }
-
-# provider "kubernetes" {
-#   host  = "https://${module.k8s_cluster_create.kubernetes_cluster_host}"
-#   token = module.k8s_cluster_create.access_token 
-#   cluster_ca_certificate = base64decode(module.k8s_cluster_create.ca_certificate) 
-# }
-
 # OTel Demo App deploy
 resource "kubernetes_namespace_v1" "otel_demo_ns" {
   metadata {
@@ -44,7 +27,6 @@ resource "helm_release" "otel_demo_app" {
   chart            = "opentelemetry-demo"
   timeout          = 120
   namespace        = var.otel_demo_namespace
-  # create_namespace = true
   wait             = false
 
   values = [
@@ -56,12 +38,6 @@ resource "helm_release" "otel_demo_app" {
 resource "kubernetes_namespace_v1" "otel_kube_stack_ns" {
   metadata {
     name = var.otel_kube_stack_namespace
-  }
-}
-
-resource "kubernetes_namespace_v1" "cert_manager_ns" {
-  metadata {
-    name = var.cert_manager_namespace
   }
 }
 
@@ -107,14 +83,13 @@ resource "helm_release" "otel-kube-stack" {
     ]
     namespace = var.otel_kube_stack_namespace
     wait_for_jobs = true
-    # create_namespace = true
 }
 
 resource "kubernetes_secret_v1" "ls_access_token" {
   depends_on = [kubernetes_namespace_v1.otel_kube_stack_ns]
   metadata {
     name      = "otel-collector-secret"
-    namespace = "otel-kube-stack"
+    namespace = var.otel_kube_stack_namespace
   }
 
   data = {
