@@ -3,7 +3,6 @@ terraform {
   required_providers {
     lightstep = {
       source = "lightstep/lightstep"
-    #   source = "registry.terraform.io/lightstep/lightstep"
       version = ">=1.70.0"
     }
   }

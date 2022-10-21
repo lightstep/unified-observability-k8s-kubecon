@@ -34,24 +34,6 @@ EOT
 
   }
 
-#   chart {
-#     name = "Concurrent Requests"
-#     rank = "1"
-#     type = "timeseries"
-
-#     query {
-#       query_name   = "a"
-#       display      = "line"
-#       hidden       = false
-#       query_string = <<EOT
-#       metric app_recommendations_counter 
-#       | rate 
-#       | group_by [], 
-#       sum
-# EOT
-#     }
-
-#   }
   chart {
     name = "Orders Placed"
     rank = "1"

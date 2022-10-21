@@ -25,5 +25,4 @@ module "lightstep_dashboards" {
     depends_on = [module.k8s_cluster_create]
 
     lightstep_project = var.ls_project
-    # workloads = var.workloads
 }
