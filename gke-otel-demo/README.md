@@ -1,3 +1,5 @@
-# Create GKE Cluster with oTel Demo App and Lightstep Dashboards
+# Create GKE Cluster with OTel Demo App and Lightstep Dashboards
 
-To run this example, check out our [tutorial on the Lightstep blog](https://lightstep.com/blog/observability-as-code-with-kubernetes-and-lightstep)!
+This folder demonstrates [Observability-Landscape-as-Code](https://lightstep.com/blog/observability-mythbusters-observability-landscape-as-code) in practice.
+
+For more info, check out our [tutorial on the Lightstep blog](https://lightstep.com/blog/observability-as-code-with-kubernetes-and-lightstep)!
