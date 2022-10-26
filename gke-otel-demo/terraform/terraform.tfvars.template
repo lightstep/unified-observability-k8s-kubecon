@@ -1,0 +1,15 @@
+# GCP Stuff
+project_id = "<your_gcp_project>"
+cluster_name = "<your_gke_cluster_name>"
+region     = "us-central1"
+network    = "default"
+subnet     = "default"
+
+# Demo App
+otel_demo_namespace = "otel-demo"
+ls_access_token = "<your_lightstep_access_token>"
+
+# Lightstep Dashboards
+ls_api_key = "<your_lightstep_api_key>"
+ls_org = "<your_lightstep_org_name>"
+ls_project = "<your_lightsep_project_name>"

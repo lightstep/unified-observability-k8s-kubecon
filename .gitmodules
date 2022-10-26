@@ -4,3 +4,9 @@
 [submodule "otel-demo/terraform-opentelemetry-dashboards"]
 	path = otel-demo/terraform-opentelemetry-dashboards
 	url = https://github.com/lightstep/terraform-opentelemetry-dashboards
+[submodule "gke-otel-demo/terraform/prometheus-k8s-opentelemetry-collector"]
+	path = gke-otel-demo/terraform/prometheus-k8s-opentelemetry-collector
+	url = https://github.com/lightstep/prometheus-k8s-opentelemetry-collector
+[submodule "gke-otel-demo/terraform/terraform-opentelemetry-dashboards"]
+	path = gke-otel-demo/terraform/terraform-opentelemetry-dashboards
+	url = https://github.com/lightstep/terraform-opentelemetry-dashboards

@@ -1,0 +1,57 @@
+opentelemetry-collector:
+  nameOverride: otelcol
+  mode: deployment
+  extraEnvs:
+    - name: LS_TOKEN
+      valueFrom:
+        secretKeyRef:
+          key: LS_TOKEN
+          name: otel-collector-secret
+  resources:
+    limits:
+      memory: 100Mi
+  config:
+    exporters:
+      otlp/ls:
+        endpoint: ingest.lightstep.com:443
+        timeout: 30s
+        tls:
+          insecure_skip_verify: true
+        headers:
+          "lightstep-access-token": "${LS_TOKEN}"
+
+      otlp:
+        endpoint: '{{ .Release.Name }}-jaeger:4317'
+        tls:
+          insecure: true
+
+      logging:
+        logLevel: debug
+
+    processors:
+      resource:
+        attributes:
+        - key: service
+          from_attribute: service.name
+          action: insert
+      resource/add_container:
+        attributes:
+        - key: container
+          from_attribute: service.name
+          action: insert
+
+    service:
+      pipelines:
+        metrics:
+          exporters:
+            - logging
+            - otlp/ls
+          processors:
+            - resource
+        traces:
+          exporters:
+            - logging
+            - otlp
+            - otlp/ls
+          processors:
+            - resource/add_container
